@@ -21,11 +21,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = UIWindow(windowScene: scene)
         
+        let loginRepository = LoginRepository()
+        let UserUsecase = UserUsecase(dataRepository: loginRepository)
+        let LoginUsecase = LoginUsecase(repository: loginRepository)
+        
         let shopViewModel = ShopViewModel(usecase: ShopUsecase(repository: ShopRepository()))
         let styleViewModel = StyleViewModel(usecase: StyleUsecase(repository: StyleRepository()))
-        let userViewModel = UserViewModel(UserUseCase: UserUsecase(dataRepository: LoginRepository()))
-        userViewModel.getSavedUser()
-        let rootVC = TabBarViewController(shopViewModel: shopViewModel, styleViewModel: styleViewModel, userViewModel: userViewModel)
+        let userViewModel = UserInfoViewModel(UserUseCase: UserUsecase)
+        let loginViewModel = LoginViewModel(UserUseCase: UserUsecase, LoginUseCase: LoginUsecase)
+        //userViewModel.UserUseCase.getSavedUser()
+        let rootVC = TabBarViewController(shopViewModel: shopViewModel, styleViewModel: styleViewModel, userViewModel: userViewModel, loginViewModel: loginViewModel)
         
         self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()
