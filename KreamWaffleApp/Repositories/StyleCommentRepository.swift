@@ -10,6 +10,7 @@ import RxSwift
 import Alamofire
 
 final class StyleCommentRepository: CommentRepositoryProtocol {
+    
     private let baseUrl = "https://kream-waffle.cf/styles/posts/"
 
     func requestInitialCommentData(token: String, id: Int, completion: @escaping () -> ()) -> Single<CommentResponse> {
