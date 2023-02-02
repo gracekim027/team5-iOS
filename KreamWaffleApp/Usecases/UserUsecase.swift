@@ -137,9 +137,6 @@ final class UserUsecase {
     
     //현재 토큰이 유효하다면 true, 아니면 false
     func checkAccessToken() async -> Bool{
-        if (!self.loggedIn) {
-            return false
-        }
         Task {
             await repository.checkIfValidToken { [weak self] (result) in
                 guard let self = self else { return }
@@ -212,6 +209,31 @@ final class UserUsecase {
                 print("[Log] UserUsecase: Password change success.")
             case .failure(let error):
                 self.error = error as LoginError
+            }
+        }
+    }
+    
+    func changeShoesize(newSize: Int){
+        repository.changeUserInfo(token: self.userResponse!.accessToken, shoeSize: newSize) { [weak self] (result) in
+            guard let self = self else {return}
+            switch result {
+            case .success(let user):
+                self.user = user
+            case .failure(let error):
+                self.error = error as LoginError
+            }
+        }
+    }
+    
+    //TEST 용
+    func test_checkIfAccessTokenValid(){
+        repository.test_CheckIfValidToken { [weak self] (result) in
+            guard let self = self else {return}
+            switch result {
+            case .success(let bool):
+                print(bool)
+            case .failure(_):
+                print("false")
             }
         }
     }

@@ -47,6 +47,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             await loginViewModel.checkAccessToken()
         }
         
+        
+        
         let LoginVC = LoginViewController(viewModel: loginViewModel)
         self.loginVC = LoginVC
         

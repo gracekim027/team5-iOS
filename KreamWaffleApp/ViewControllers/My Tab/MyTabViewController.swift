@@ -57,6 +57,7 @@ class MyTabViewController: UIViewController, UITabBarControllerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override func viewWillAppear(_ animated : Bool) {
         self.loginVM.loginState.asObservable().subscribe { status in
             if (status.element! == false){
@@ -99,7 +100,8 @@ class MyTabViewController: UIViewController, UITabBarControllerDelegate {
     }
     
     @objc func settingButtonTapped(){
-        let settingsVC = SettingsViewController(viewModel: self.loginVM)
+        let viewModel = EditAccountViewModel(usecase: self.loginVM.UserUseCase)
+        let settingsVC = SettingsViewController(viewModel: viewModel)
         settingsVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(settingsVC, animated: true)
     }
@@ -259,6 +261,7 @@ class MyTabViewController: UIViewController, UITabBarControllerDelegate {
             self.divider.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.divider.heightAnchor.constraint(equalToConstant: 15),
             self.divider.topAnchor.constraint(equalTo: self.userNameLabel.bottomAnchor, constant: self.view.frame.height/64),
+
         ])
     }
     

@@ -137,6 +137,7 @@
 		CE571D85298A53A600DAB878 /* UserProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE571D84298A53A600DAB878 /* UserProfileRepository.swift */; };
 		CE571D87298A809600DAB878 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE571D86298A809600DAB878 /* UserProfileViewModel.swift */; };
 		CE571D89298AE69500DAB878 /* LoginSettingsEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE571D88298AE69500DAB878 /* LoginSettingsEditViewController.swift */; };
+		CE9EBDEC298BB3B000F4131A /* EditAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9EBDEB298BB3B000F4131A /* EditAccountViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -287,6 +288,7 @@
 		CE571D84298A53A600DAB878 /* UserProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRepository.swift; sourceTree = "<group>"; };
 		CE571D86298A809600DAB878 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		CE571D88298AE69500DAB878 /* LoginSettingsEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSettingsEditViewController.swift; sourceTree = "<group>"; };
+		CE9EBDEB298BB3B000F4131A /* EditAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountViewModel.swift; sourceTree = "<group>"; };
 		F7EF6F841C68824F321DFFC4 /* Pods-KreamWaffleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KreamWaffleApp.debug.xcconfig"; path = "Target Support Files/Pods-KreamWaffleApp/Pods-KreamWaffleApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -330,7 +332,6 @@
 				948C66942958482E00561C59 /* MyTabViewController.swift */,
 				65F8FBB92962125200679E72 /* MyShoppingViewController.swift */,
 				655A94CE296C73FB00F0184B /* MyProfileViewController.swift */,
-				6537F71129837CAF00FC58E8 /* SettingsViewController.swift */,
 			);
 			path = "My Tab";
 			sourceTree = "<group>";
@@ -408,6 +409,7 @@
 		6537F7132985BEFF00FC58E8 /* Edit Profile VC */ = {
 			isa = PBXGroup;
 			children = (
+				6537F71129837CAF00FC58E8 /* SettingsViewController.swift */,
 				6537F70F29837B3500FC58E8 /* EditProfileViewController.swift */,
 				6537F7142985BF1A00FC58E8 /* SubEditProfileViewController.swift */,
 				CE571D82298A1A7C00DAB878 /* EditProfileTableViewCell.swift */,
@@ -532,6 +534,7 @@
 				5C6FBD70297BCBA200B64FF0 /* ProfileViewModel.swift */,
 				5C6CE19B2982764100755334 /* NewPostViewModel.swift */,
 				5C2882BD298A335C0063C0C1 /* CommentViewModel.swift */,
+				CE9EBDEB298BB3B000F4131A /* EditAccountViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -868,6 +871,7 @@
 				65F8FBAD29620F7600679E72 /* UserListCollectionViewLayout.swift in Sources */,
 				5C6FBD4729796DB300B64FF0 /* NestedProfile.swift in Sources */,
 				5C2F9CA6295D7B250021D437 /* StyleFeedViewModel.swift in Sources */,
+				CE9EBDEC298BB3B000F4131A /* EditAccountViewModel.swift in Sources */,
 				5C2882CC298AF1AC0063C0C1 /* ReplyButton.swift in Sources */,
 				5C6FBD5A2979826500B64FF0 /* UserListCollectionViewCell.swift in Sources */,
 				5C6FBD7D297D965A00B64FF0 /* FollowUserListViewController.swift in Sources */,

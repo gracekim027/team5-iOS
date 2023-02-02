@@ -37,7 +37,7 @@ class SubEditProfileViewController: UIViewController, UINavigationBarDelegate {
     var line = UILabel()
     var saveButton = UIButton()
     
-    var loginVM : LoginViewModel?
+    var viewModel : EditAccountViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +45,9 @@ class SubEditProfileViewController: UIViewController, UINavigationBarDelegate {
         mapData()
         addNavigationBar()
         setupSubviews()
-        bind()
+        if (self.editCase == .password){
+            self.bindForPasswordSetting()
+        }
     }
     
     private func addNavigationBar() {
@@ -107,11 +109,11 @@ class SubEditProfileViewController: UIViewController, UINavigationBarDelegate {
         }
     }
     
-    init(myProfile: Profile?, editCase: editCase, user: User?, loginVM: LoginViewModel?){
+    init(myProfile: Profile?, editCase: editCase, user: User?, viewModel: EditAccountViewModel?){
         self.myProfile = myProfile
         self.user = user
         self.editCase = editCase
-        self.loginVM = loginVM
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -155,7 +157,7 @@ class SubEditProfileViewController: UIViewController, UINavigationBarDelegate {
         self.saveButton.clipsToBounds = true
     }
 
-    
+    //MARK: - only for profile settings
     func bind(){
         self.textfield?.textfield.rx.text
             .orEmpty
@@ -181,17 +183,58 @@ class SubEditProfileViewController: UIViewController, UINavigationBarDelegate {
     }
     
     //MARK: - only for user settings
-    func bindLoginVM() {
-        self.saveButton.rx.tap.bind {
-            self.loginVM?.changePassword(newPassword: self.textfield?.textfield.text ?? "")
-            self.loginVM!.errorRelay.subscribe { error in
-                if (error.event.element == LoginError.passwordChangeError){
-                    self.showErrorNotification(errorText: "비밀번호를 확인해주세요.")
-                }else{
-                    self.showActionCompleteNotification()
-                }
-            }.disposed(by: self.bag)
-        }.disposed(by: bag)
+    func bindForPasswordSetting() {
+        
+        self.textfield?.textfield.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .subscribe(onNext: { changedText in
+                self.textfield?.editTextCounter(text: changedText)
+                self.viewModel?.pwTextRelay.accept(changedText)
+            })
+            .disposed(by: bag)
+        
+        self.textfield?.textfield.rx.text
+            .orEmpty
+            .bind(to: self.viewModel!.pwTextRelay)
+            .disposed(by: bag)
+        
+        self.viewModel?.isValidPasswordRelay()
+            .map { $0 ? UIColor.black: UIColor.lightGray}
+            .bind(to: self.saveButton.rx.backgroundColor)
+            .disposed(by: bag)
+        
+        self.viewModel?.isValidPasswordRelay()
+            .map { $0 ? UIColor.white: UIColor.darkGray}
+            .bind(to: self.saveButton.rx.tintColor)
+            .disposed(by: bag)
+        
+        self.viewModel?.isValidPasswordRelay()
+            .bind(to: self.saveButton.rx.isEnabled)
+            .disposed(by: bag)
+        
+        self.saveButton.rx
+            .tap
+            .bind {
+                self.viewModel?.changePassword()
+                
+                //TODO: 에러처리해주기
+                self.showActionCompleteNotification()
+                
+                /*
+                self.viewModel.errorRelay
+                    .asObservable()
+                    .subscribe { error in //TODO: sync 가 안맞음. 수정하기
+                    if (error.element == LoginError.signupError ){
+                        print("[Log] Signup VC: Error in signup")
+                        self.showErrorNotification(errorText: "이메일이나 비밀번호를 확인해주세요.")
+                    }else if (error.element == LoginError.alreadySignedUpError){
+                        self.showErrorNotification(errorText: "이미 회원가입된 이메일입니다.")
+                    }else{
+                        self.showEmailSentNotification()
+                    }
+                }*/
+            }
     }
     
     func showErrorNotification(errorText: String){

@@ -11,7 +11,9 @@ import RxSwift
 
 class LoginSettingsEditViewController: UIViewController, UIScrollViewDelegate, UISheetPresentationControllerDelegate {
     
-    var viewModel : LoginViewModel
+    let bag = DisposeBag()
+    
+    var viewModel : EditAccountViewModel
     
     var editDic : BehaviorRelay<[editCase]> = BehaviorRelay(value: [editCase.email, editCase.password, editCase.shoeSize])
     var temDic : [editCase] = []
@@ -31,6 +33,7 @@ class LoginSettingsEditViewController: UIViewController, UIScrollViewDelegate, U
     
     }
     
+    
     func setupTable(){
         self.editTable.separatorStyle = .none
         self.editTable.register(EditProfileTableViewCell.self, forCellReuseIdentifier: "EditProfileTableViewCell")
@@ -45,35 +48,55 @@ class LoginSettingsEditViewController: UIViewController, UIScrollViewDelegate, U
                 .items(cellIdentifier: "EditProfileTableViewCell", cellType: EditProfileTableViewCell.self))
         { [self] index, element, cell in
                 //element is editCase
-            cell.addData(editCase: element, userProfile: nil, user: viewModel.UserUseCase.user) //TODO: edit so that it gets user from view model
-            if (element != .email && element != .shoeSize){
+            cell.addData(editCase: element, userProfile: nil, user: viewModel.user)
+            if (element == .password){
+                //=========for changing password============
+                self.viewModel.pwTextRelay.subscribe { pw in
+                   //get pw's count and make length of *
+                    let str = String(repeating: "*", count: pw.element?.count ?? 8)
+                    cell.currentTextLabel.text = str
+                }
+                
                 cell.editButton.rx
                     .tap
                     .bind {
-                        let subVC = SubEditProfileViewController(myProfile: nil, editCase: element, user: viewModel.UserUseCase.user!, loginVM: self.viewModel)
-                        subVC.bindLoginVM()
+                        let subVC = SubEditProfileViewController(myProfile: nil, editCase: element, user: viewModel.user, viewModel: self.viewModel)
                         subVC.modalPresentationStyle = .pageSheet
                         self.present(subVC, animated: true)
                     }
-            }else if (element == .email || element == .shoeSize){
+            }else if (element == .email){
+                
+                
+                //nothing to change for email
                 cell.removeButton()
+                
+                
             }else if (element == .shoeSize){
+                
+                //====size relay 에 바인딩하고 shoe select tap 을 보여줌===========
+                
+                self.viewModel.shoeSizeRelay.subscribe { size in
+                    if (size.element != 0){
+                        cell.currentTextLabel.text = String(size.element ?? 0)
+                    }else{
+                        cell.currentTextLabel.text = "사이즈를 선택하세요."
+                    }
+                }.disposed(by: bag)
+               
                 cell.editButton.rx
                     .tap
                     .bind {
-                        let vc = ShoeSizeSelectionViewController(viewModel: nil)
+                        let vc = ShoeSizeSelectionViewController(viewModel: nil, loginVM: self.viewModel)
                         vc.modalPresentationStyle = .pageSheet
                         if let sheet = vc.sheetPresentationController {
                             sheet.detents = [.medium()]
                             sheet.delegate = self
                             sheet.prefersGrabberVisible = true
-                            
                         }
                         self.present(vc, animated: true, completion: nil)
                     }
             }
-            
-            }
+        }
                   .disposed(by: disposeBag)
         
         self.editTable.translatesAutoresizingMaskIntoConstraints = false
@@ -86,7 +109,7 @@ class LoginSettingsEditViewController: UIViewController, UIScrollViewDelegate, U
         ])
     }
 
-    init(viewModel: LoginViewModel){
+    init(viewModel: EditAccountViewModel){
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
