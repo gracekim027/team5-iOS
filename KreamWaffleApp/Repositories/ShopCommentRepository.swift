@@ -10,6 +10,7 @@ import RxSwift
 import Alamofire
 
 final class ShopCommentRepository: CommentRepositoryProtocol {
+    
     private let baseUrl = "https://kream-waffle.cf/shop/productinfos/"
 
     func requestInitialCommentData(token: String, id: Int, completion: @escaping () -> ()) -> Single<CommentResponse> {
