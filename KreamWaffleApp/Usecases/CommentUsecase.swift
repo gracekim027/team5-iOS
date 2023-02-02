@@ -15,10 +15,12 @@ final class CommentUsecase {
     private let disposeBag = DisposeBag()
     
     let commentRelay: BehaviorRelay<[Comment]> = .init(value: [])
+    let commentDidLoad: BehaviorRelay<Bool> = .init(value: false)
     
     var commentList = [Comment]() {
         didSet {
-            self.commentRelay.accept(self.commentList)
+            commentDidLoad.accept(true)
+            commentRelay.accept(commentList)
         }
     }
     
@@ -67,10 +69,4 @@ final class CommentUsecase {
         self.commentRepository
             .sendComment(token: token, content: content, id: id, completion: completion, onNetworkFailure: onNetworkFailure)
     }
-    
-    func sendReply(token: String, content: String, replyTarget: Int, completion: @escaping ()->(), onNetworkFailure: @escaping ()->()) {
-        self.commentRepository
-            .sendReply(token: token, content: content, replyTarget: replyTarget, completion: completion, onNetworkFailure: onNetworkFailure)
-    }
-
 }

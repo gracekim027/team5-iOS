@@ -131,6 +131,7 @@
 		CE571D89298AE69500DAB878 /* LoginSettingsEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE571D88298AE69500DAB878 /* LoginSettingsEditViewController.swift */; };
 		CE9EBDE5298B921600F4131A /* EditAccountVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9EBDE4298B921600F4131A /* EditAccountVIewModel.swift */; };
 		CE9EBDF1298BDDF400F4131A /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9EBDF0298BDDF400F4131A /* ProductDetailViewController.swift */; };
+		CE9EBDF3298BE72F00F4131A /* CommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9EBDF2298BE72F00F4131A /* CommentCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -276,6 +277,7 @@
 		CE9EBDE4298B921600F4131A /* EditAccountVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountVIewModel.swift; sourceTree = "<group>"; };
 		CE9EBDE8298BAA5400F4131A /* ProductSizeSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSizeSelectionViewController.swift; sourceTree = "<group>"; };
 		CE9EBDF0298BDDF400F4131A /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		CE9EBDF2298BE72F00F4131A /* CommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		F7EF6F841C68824F321DFFC4 /* Pods-KreamWaffleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KreamWaffleApp.debug.xcconfig"; path = "Target Support Files/Pods-KreamWaffleApp/Pods-KreamWaffleApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -627,6 +629,7 @@
 				656F1A58296138870052B148 /* ShoeSizeSelectionCollectionViewCell.swift */,
 				65F8FBB32962104E00679E72 /* StyleFeedCollectionViewCell.swift */,
 				5C2882C7298A4E9F0063C0C1 /* ReplyCell.swift */,
+				CE9EBDF2298BE72F00F4131A /* CommentCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -964,6 +967,7 @@
 				CE9EBDE5298B921600F4131A /* EditAccountVIewModel.swift in Sources */,
 				94CDFF972974742400C2095C /* HomeTabBrandsCollectionViewVC.swift in Sources */,
 				65F8FBB6296211B800679E72 /* ProfileSubview.swift in Sources */,
+				CE9EBDF3298BE72F00F4131A /* CommentCollectionViewCell.swift in Sources */,
 				6583C9E72960DCB0007C741F /* FindPasswordViewController.swift in Sources */,
 				944A1145295D16ED00F8CDB7 /* ShopCollectionViewFlowLayout.swift in Sources */,
 				654D9692295BFC4900B93EE0 /* Constants.swift in Sources */,

@@ -74,30 +74,19 @@ final class StyleCommentRepository: CommentRepositoryProtocol {
     }
     
     func sendComment(token: String, content: String, id: Int, completion: @escaping ()-> (), onNetworkFailure: @escaping () -> ()) {
-        let finalUrl = baseUrl + "\(id)/comments"
+        let finalUrl = baseUrl + "\(id)/comments/"
         
         let headers: HTTPHeaders = [
-            "accept": "application/json",
+            "Content-Type": "application/json",
             "Authorization": "Bearer \(token)"
         ]
         
-        var request = URLRequest(url: URL(string: finalUrl)!)
-        request.httpMethod = HTTPMethod.post.rawValue
-        request.headers = headers
-        let body: [String: Any] = [
-            "content" : "\(content)"
+        let parameters = [
+            "content": content,
         ]
         
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: body, options:JSONSerialization.WritingOptions.prettyPrinted)
-            request.httpBody = jsonData
-        } catch {
-            onNetworkFailure()
-        }
         
-        
-        
-        AF.request(request)
+        AF.request(finalUrl, method: .post, parameters:parameters,encoder:JSONParameterEncoder.default, headers: headers)
             .validate()
             .responseDecodable(of: CommentResponse.self) { response in
                 //**********
@@ -112,30 +101,5 @@ final class StyleCommentRepository: CommentRepositoryProtocol {
                     onNetworkFailure()
                 }
             }
-    }
-    
-    func sendReply(token: String, content: String, replyTarget: Int, completion: @escaping ()->(), onNetworkFailure: @escaping () -> ()) {
-//        let headers: HTTPHeaders = [
-//            "accept": "application/json",
-//            "Authorization": "Bearer \(token)"
-//        ]
-//
-//        AF.request(cursor, method: .get, headers: headers)
-//            .validate()
-//            .responseDecodable(of: CommentResponse.self) { response in
-//                //**********
-//                print("\n=============== style comment 이어서 불러오기 ===============\n")
-//                debugPrint(response)
-//                //**********
-//
-//                switch response.result {
-//                case .success(let result):
-//                    single(.success(result))
-//                case .failure(let error):
-//                    single(.failure(error))
-//                }
-//
-//                completion()
-//            }
     }
 }

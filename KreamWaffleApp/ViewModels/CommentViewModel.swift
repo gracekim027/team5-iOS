@@ -13,18 +13,24 @@ final class CommentViewModel {
     let postTextRelay = BehaviorRelay<String>(value: "")
     private let commentUsecase: CommentUsecase
     private var isAlreadyFetchingDataFromServer = false
-    private let id: Int //style탭 포스팅이든 shop탭 상품이든 아무튼 그 대상 ID
+    private let id: Int //style탭 포스팅이든 shop탭 상품이든 그 대상 ID
+    
     var currentReplyTarget: Int = 0
     
-    var isWritingReply = false {
+    var isWritingComment = false {
         didSet {
-            isWritingReplyRelay.accept(isWritingReply)
+            isWritingCommentRelay.accept(isWritingComment)
         }
     }
-    let isWritingReplyRelay = BehaviorRelay<Bool>(value: false)
+    
+    let isWritingCommentRelay = BehaviorRelay<Bool>(value: false)
     
     var currentReplyToProfile: ReplyToProfile?
 
+    var commentDidLoad: Observable<Bool> {
+        return self.commentUsecase.commentDidLoad.asObservable()
+    }
+    
     var commentDataSource: Observable<[Comment]> {
         return self.commentUsecase.commentRelay.asObservable()
     }
@@ -32,24 +38,6 @@ final class CommentViewModel {
     init(commentUsecase: CommentUsecase, id: Int) {
         self.commentUsecase = commentUsecase
         self.id = id
-    }
-    
-    var commentCount: Int {
-        get {
-            self.commentUsecase.commentList.count
-        }
-    }
-    
-    func replyCountOfComment(at index: Int) -> Int {
-        return self.commentUsecase.commentList[index].replies.count
-    }
-    
-    func getComment(at index: Int) -> Comment {
-        return self.commentUsecase.commentList[index]
-    }
-    
-    func getCommentId(at index: Int) -> Int {
-        return self.commentUsecase.commentList[index].id
     }
     
     func requestInitialData(token: String) {
@@ -69,10 +57,7 @@ final class CommentViewModel {
     }
     
     func sendComment(token: String, content: String, completion: @escaping ()->(), onNetworkFailure: @escaping () -> ()) {
-        if (!isWritingReply) { //reply 아니라 comment일 때
-            self.commentUsecase.sendComment(token: token, content: content, id: id, completion: completion, onNetworkFailure: onNetworkFailure)
-        } else {
-            self.commentUsecase.sendReply(token: token, content: content, replyTarget: currentReplyTarget, completion: completion, onNetworkFailure: onNetworkFailure)
-        }
+        self.commentUsecase.sendComment(token: token, content: content, id: id, completion: completion, onNetworkFailure: onNetworkFailure)
     }
+    
 }
