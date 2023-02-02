@@ -1,3 +1,0 @@
-git_url("https://github.com/wafflestudio/wafflestudio-apple-certificates")
-storage_mode("git")
-username("apple@wafflestudio.com")
